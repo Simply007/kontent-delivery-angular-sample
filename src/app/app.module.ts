@@ -4,9 +4,10 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgxJsonViewerModule } from 'ngx-json-viewer';
 
 import { AppComponent } from './app.component';
+import { RichTextComponent } from './rich-text/rich-text.component';
 
 @NgModule({
-  declarations: [AppComponent],
+  declarations: [AppComponent, RichTextComponent],
   imports: [BrowserModule, HttpClientModule, NgxJsonViewerModule],
   providers: [],
   bootstrap: [AppComponent],

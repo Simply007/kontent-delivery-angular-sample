@@ -1,0 +1,12 @@
+<div style="background-color: silver; padding: 1em">
+  <h1>
+    Resolved rich text "{{ elementCodename }}" for item "{{ itemCodename }}"
+  </h1>
+  <cite>From project {{ projectId }}</cite>
+  <div [innerHTML]="resolvedHtml"></div>
+  <ngx-json-viewer
+    *ngIf="parsedResult"
+    [json]="parsedResult"
+    [expanded]="false"
+  ></ngx-json-viewer>
+</div>
