@@ -1,17 +1,10 @@
 import { ChangeDetectorRef, Component } from '@angular/core';
-import {
-  IDeliveryClient,
-  createDeliveryClient,
-  INetworkResponse,
-  Responses,
-  IGroupedNetworkResponse,
-} from '@kentico/kontent-delivery';
-import { AngularHttpService } from '@kentico/kontent-angular-http-service';
 import { HttpClient } from '@angular/common/http';
-import { ThrowStmt } from '@angular/compiler';
 import { Observable, from } from 'rxjs';
 import { observableHelper } from './helpers/observable.helper';
 import { map } from 'rxjs/operators';
+import { AngularHttpService } from '@kontent-ai/core-sdk-angular-http-service';
+import { IDeliveryClient, Responses, IGroupedNetworkResponse, createDeliveryClient, IDeliveryNetworkResponse } from '@kontent-ai/delivery-sdk';
 
 @Component({
   selector: 'app-root',
@@ -23,14 +16,14 @@ export class AppComponent {
 
   deliveryClient: IDeliveryClient;
 
-  itemsResponse?: INetworkResponse<Responses.IListContentItemsResponse, any>;
-  itemResponse?: INetworkResponse<Responses.IViewContentItemResponse, any>;
-  taxonomiesResponse?: INetworkResponse<Responses.IListTaxonomiesResponse, any>;
-  taxonomyResponse?: INetworkResponse<Responses.IViewTaxonomyResponse, any>;
-  typesResponse?: INetworkResponse<Responses.IListContentTypesResponse, any>;
-  typeResponse?: INetworkResponse<Responses.IViewContentTypeResponse, any>;
-  languagesResponse?: INetworkResponse<Responses.IListLanguagesResponse, any>;
-  elementResponse?: INetworkResponse<
+  itemsResponse?: IDeliveryNetworkResponse<Responses.IListContentItemsResponse, any>;
+  itemResponse?: IDeliveryNetworkResponse<Responses.IViewContentItemResponse, any>;
+  taxonomiesResponse?: IDeliveryNetworkResponse<Responses.IListTaxonomiesResponse, any>;
+  taxonomyResponse?: IDeliveryNetworkResponse<Responses.IViewTaxonomyResponse, any>;
+  typesResponse?: IDeliveryNetworkResponse<Responses.IListContentTypesResponse, any>;
+  typeResponse?: IDeliveryNetworkResponse<Responses.IViewContentTypeResponse, any>;
+  languagesResponse?: IDeliveryNetworkResponse<Responses.IListLanguagesResponse, any>;
+  elementResponse?: IDeliveryNetworkResponse<
     Responses.IViewContentTypeElementResponse,
     any
   >;

@@ -1,8 +1,8 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, Input, OnInit } from '@angular/core';
-import { AngularHttpService } from '@kentico/kontent-angular-http-service';
-import { createDeliveryClient, IDeliveryClient } from '@kentico/kontent-delivery';
-import { IDomNode, IOutputResult, IRichTextParser, RichTextBrowserParser } from 'kontent-rich-text-to-json-converter';
+import { AngularHttpService } from '@kontent-ai/core-sdk-angular-http-service';
+import { IDeliveryClient, Elements, ElementType, createDeliveryClient } from '@kontent-ai/delivery-sdk';
+import { IDomHtmlNode, IDomNode, IOutputResult, IRichTextParser, isImage, isItemLink, isLinkedItem, RichTextBrowserParser } from 'kontent-rich-text-to-json-converter';
 
 @Component({
   selector: 'app-rich-text',
@@ -20,6 +20,16 @@ export class RichTextComponent implements OnInit {
 
   resolvedHtml: String = "<p><br/><p>";
   parsedResult: IOutputResult | null = null;
+  richTextData: Elements.RichTextElement = {
+    name: "dummy",
+    type: ElementType.RichText,
+    value: "<p><br/></p>",
+    images: [],
+    links: [],
+    linkedItemCodenames: [],
+    linkedItems: []
+  }
+  resolveImage: any;
 
   constructor(httpClient: HttpClient) {
     this.deliveryClient = createDeliveryClient({
@@ -30,31 +40,61 @@ export class RichTextComponent implements OnInit {
     this.parser = new RichTextBrowserParser();
   }
 
+  resolveLinkedItem = (node: IDomHtmlNode): string => {
+    const itemCodeName = node.attributes['data-codename'];
+
+    const item = this.richTextData.linkedItems.find(item => item.system.codename === itemCodeName);
+    return `<div class="red">TODO LINKED ITEM ${itemCodeName}</div>`;
+
+  }
+
+  resolveItemLink = (node: IDomHtmlNode): string => {
+    const linkId = node.attributes['data-item-id'];;
+    return `<div class="red">TODO LINKED ITEM LINK ${linkId}</div>`;
+  }
+
+  resolveHtmlElement = (node: IDomHtmlNode): string => {
+    const attributes = Object.entries(node.attributes).map(([key, value]) => `${key}="${value}"`).join(" ");
+    const openingTag = `<${node.tagName} ${attributes}>`;
+    const closingTag = `</${node.tagName}>`;
+    return `${openingTag}${node.children.map(this.link).join("")}${closingTag}`;
+  }
+
+  link = (node: IDomNode): string => {
+    switch (node.type) {
+      case 'text': {
+        return node.content;
+      }
+      case 'tag': {
+
+
+        if (isLinkedItem(node)) {
+          return this.resolveLinkedItem(node);
+        } else if (isImage(node)) {
+          return this.resolveImage(node);
+        } else if (isItemLink(node)) {
+          return this.resolveItemLink(node);
+        } else {
+          return this.resolveHtmlElement(node);
+        }
+      }
+    }
+  }
+
+
   ngOnInit(): void {
     this.deliveryClient.item(this.itemCodename)
       .toPromise()
       .then(response => response.data.item)
-      .then(item => item.elements[this.elementCodename])
+      .then(item => item.elements[this.elementCodename] as Elements.RichTextElement)
       .then(richTextElement => {
+        this.richTextData = richTextElement;
         this.parsedResult = this.parser.parse(richTextElement.value);
 
-        const link = (node: IDomNode): string => {
-          switch (node.type) {
-            case 'text':
-              return node.content;
-
-            case 'tag':
-              console.log()
-              const resolvedChildren = `<${node.tagName} ${Object.entries(node.attributes).map(([key, value]) => `${key}="${value}"`)}>
-                ${node.children.map(link).join("")}
-              </${node.tagName}>`;
-              return resolvedChildren;
-          }
-        }
-
-        this.resolvedHtml = this.parsedResult.childNodes.map(link).join("");
-
-      })
+        this.resolvedHtml = this.parsedResult.childNodes.map(this.link).join("");
+      });
   }
 
 }
+
+
