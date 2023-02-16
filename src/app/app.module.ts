@@ -5,9 +5,10 @@ import { NgxJsonViewerModule } from 'ngx-json-viewer';
 
 import { AppComponent } from './app.component';
 import { RichTextComponent } from './rich-text/rich-text.component';
+import { SafePipe } from './rich-text/safe.pipe';
 
 @NgModule({
-  declarations: [AppComponent, RichTextComponent],
+  declarations: [AppComponent, RichTextComponent, SafePipe],
   imports: [BrowserModule, HttpClientModule, NgxJsonViewerModule],
   providers: [],
   bootstrap: [AppComponent],

@@ -25,7 +25,7 @@ describe('AppComponent', () => {
 
     fixture.whenStable().then(() => {
       fixture.detectChanges();
-      console.log(app);
+
       expect(app.itemsResponse).toBeDefined();
       expect(app.itemResponse).toBeDefined();
       expect(app.taxonomyResponse).toBeDefined();
