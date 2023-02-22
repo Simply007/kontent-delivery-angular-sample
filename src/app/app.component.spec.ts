@@ -3,11 +3,13 @@ import { TestBed } from '@angular/core/testing';
 import { BrowserModule } from '@angular/platform-browser';
 import { AppComponent } from './app.component';
 import { NgxJsonViewerModule } from 'ngx-json-viewer';
+import { RichTextComponent } from './rich-text/rich-text.component';
+import { SafePipe } from './rich-text/safe.pipe';
 
 describe('AppComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [AppComponent],
+      declarations: [AppComponent, RichTextComponent, SafePipe],
       imports: [BrowserModule, HttpClientModule, NgxJsonViewerModule],
     }).compileComponents();
   });
@@ -36,5 +38,6 @@ describe('AppComponent', () => {
       expect(app.itemsFeedResponse).toBeDefined();
       expect(app.elementResponse).toBeDefined();
     });
+    expect(app).toBeTruthy();
   });
 });
