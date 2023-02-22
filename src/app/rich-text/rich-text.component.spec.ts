@@ -19,6 +19,7 @@ describe('RichTextComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(RichTextComponent);
     component = fixture.componentInstance;
+    component.itemCodename = "on_roasts";
     fixture.detectChanges();
   });
 
