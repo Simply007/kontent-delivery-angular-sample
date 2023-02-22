@@ -2,7 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Component, Input, OnInit } from '@angular/core';
 import { AngularHttpService } from '@kontent-ai/core-sdk-angular-http-service';
 import { IDeliveryClient, Elements, ElementType, createDeliveryClient, ElementModels } from '@kontent-ai/delivery-sdk';
-import { IDomHtmlNode, IDomNode, IOutputResult, IRichTextParser, isImage, isItemLink, isLinkedItem, RichTextBrowserParser } from 'kontent-rich-text-to-json-converter';
+import { IDomHtmlNode, IDomNode, IOutputResult, isImage, isItemLink, isLinkedItem, RichTextBrowserParser } from '@pokornyd/kontent-ai-rich-text-parser'
 
 @Component({
   selector: 'app-rich-text',
@@ -165,7 +165,7 @@ export class RichTextComponent implements OnInit {
         this.richTextData = richTextElement;
         this.parsedResult = this.parser.parse(richTextElement.value);
 
-        this.resolvedHtml = this.parsedResult.childNodes.map(this.link).join("");
+        this.resolvedHtml = this.parsedResult.children.map(this.link).join("");
       });
   }
 

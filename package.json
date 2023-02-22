@@ -29,11 +29,11 @@
     "@angular/router": "~14.0.7",
     "@kontent-ai/core-sdk-angular-http-service": "5.0.0",
     "@kontent-ai/delivery-sdk": "12.4.2",
+    "@pokornyd/kontent-ai-rich-text-parser": "^0.0.13",
     "ngx-json-viewer": "3.0.2",
     "rxjs": "~7.8.0",
     "tslib": "^2.3.0",
-    "zone.js": "~0.11.4",
-    "kontent-rich-text-to-json-converter": "file:../rich-text-resolver"
+    "zone.js": "~0.11.4"
   },
   "devDependencies": {
     "@angular-devkit/build-angular": "~14.0.7",
